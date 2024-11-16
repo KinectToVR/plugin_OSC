@@ -6,7 +6,6 @@ using System.Diagnostics;
 using System.Net;
 using System.Net.Sockets;
 using System.Numerics;
-using System.Text.RegularExpressions;
 using Amethyst.Plugins.Contract;
 using BuildSoft.OscCore;
 using Microsoft.UI;
@@ -18,7 +17,6 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Animation;
 using VRC.OSCQuery;
 using static VRC.OSCQuery.Extensions;
-using TextBoxExtensions = CommunityToolkit.WinUI.UI.TextBoxExtensions;
 
 namespace plugin_OSC;
 
@@ -81,20 +79,28 @@ public class Osc : IServiceEndpoint
 
     private OscLogger Logger => AmethystLogger ??= new OscLogger(Host);
     private OscLogger AmethystLogger { get; set; }
+    private OscStatusEnum ServiceStatusInternal { get; set; } = OscStatusEnum.Unknown;
+
+    private bool PluginLoaded { get; set; }
+
+    public Task ProcessKeyInput(IKeyInputAction action, object data, TrackerType? receiver, CancellationToken? token = null)
+    {
+        return Task.CompletedTask;
+    }
 
     public bool IsSettingsDaemonSupported => true;
     public object SettingsInterfaceRoot => MInterfaceRoot;
     public int ServiceStatus => Math.Clamp((int)ServiceStatusInternal, -2, 0);
-    private OscStatusEnum ServiceStatusInternal { get; set; } = OscStatusEnum.Unknown;
 
     public string ServiceStatusString => Host
         ?.RequestLocalizedString($"/Statuses/{ServiceStatusInternal}")
         .Replace("{0}", _lastInitException?.Message ?? "[Not available]") ?? "Status doko?";
 
     public Uri ErrorDocsUri => new($"https://docs.k2vr.tech/{Host?.DocsLanguageCode ?? "en"}/osc/");
+    public Dictionary<TrackerType, SortedSet<IKeyInputAction>> SupportedInputActions => [];
 
-    public SortedSet<TrackerType> AdditionalSupportedTrackerTypes => new()
-    {
+    public SortedSet<TrackerType> AdditionalSupportedTrackerTypes =>
+    [
         TrackerType.TrackerLeftFoot, // Already OK
         TrackerType.TrackerRightFoot, // Already OK
         TrackerType.TrackerLeftElbow,
@@ -103,7 +109,7 @@ public class Osc : IServiceEndpoint
         TrackerType.TrackerRightKnee,
         TrackerType.TrackerWaist, // Already OK
         TrackerType.TrackerChest
-    };
+    ];
 
     public bool AutoStartAmethyst
     {
@@ -131,8 +137,6 @@ public class Osc : IServiceEndpoint
     public string TrackingSystemName => "OSC";
 
     public (Vector3 Position, Quaternion Orientation)? HeadsetPose => null;
-
-    private bool PluginLoaded { get; set; }
 
     public void DisplayToast((string Title, string Text) message)
     {
@@ -749,6 +753,25 @@ public class Osc : IServiceEndpoint
             new BuildSoft.OscCore.UnityObjects.Vector3(eulerAngles.X, eulerAngles.Y, eulerAngles.Z));
     }
 
+
+    public static IPAddress GetLocalIPAddress()
+    {
+        // Windows can only serve TCP on the loopback address, but can serve UDP on the non-loopback address
+        return IPAddress.Loopback;
+    }
+
+    public static IPAddress GetLocalIPAddressNonLoopback()
+    {
+        // Get the host name of the local machine
+        var hostName = Dns.GetHostName();
+
+        // Get the IP address of the first IPv4 network interface found on the local machine
+        foreach (var ip in Dns.GetHostEntry(hostName).AddressList)
+            if (ip.AddressFamily == AddressFamily.InterNetwork)
+                return ip;
+        return null;
+    }
+
     private enum OscStatusEnum
     {
         Unknown = -2,
@@ -768,25 +791,6 @@ public class Osc : IServiceEndpoint
     private TextBlock PortInvalidLabel { get; set; }
 
     #endregion
-
-
-    public static IPAddress GetLocalIPAddress()
-    {
-        // Windows can only serve TCP on the loopback address, but can serve UDP on the non-loopback address
-        return IPAddress.Loopback;
-    }
-
-    public static IPAddress GetLocalIPAddressNonLoopback()
-    {
-        // Get the host name of the local machine
-        var hostName = Dns.GetHostName();
-
-        // Get the IP address of the first IPv4 network interface found on the local machine
-        foreach (var ip in Dns.GetHostEntry(hostName).AddressList)
-            if (ip.AddressFamily == AddressFamily.InterNetwork)
-                return ip;
-        return null;
-    }
 }
 
 internal class SetupData : ICoreSetupData

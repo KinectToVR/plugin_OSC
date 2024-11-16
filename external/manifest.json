@@ -1,7 +1,7 @@
 {
-  "version": "1.0.0.0",
+  "version": "1.0.0.1",
   "display_name": "OSC",
-  "download":  "plugin_OSC.zip",
+  "download_":  "plugin_OSC.zip",
   "changelog": "Partial code cleanup, implicit using-s, tweaked trimmer.",
   "guid": "K2VRTEAM-AME2-APII-SNDP-SENDPTVRCOSC"
 }

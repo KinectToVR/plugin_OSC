@@ -23,11 +23,11 @@ jobs:
         uses: microsoft/setup-msbuild@v1.1
 
       - name: Restore and build (publish)
-        run: msbuild plugin_OSC /restore /p:Platform=x64 /p:PlatformTarget=x64 /p:Configuration=Release /p:RuntimeIdentifier=win10-x64 /t:Publish /p:PublishProfile=plugin_OSC\Properties\PublishProfiles\FolderProfile.pubxml
+        run: msbuild plugin_OSC /restore /p:Platform=x64 /p:PlatformTarget=x64 /p:Configuration=Release /p:RuntimeIdentifier=win-x64 /t:Publish /p:PublishProfile=plugin_OSC\Properties\PublishProfiles\FolderProfile.pubxml
         
       - name: Pack published files
         run: |
-          cd plugin_OSC/bin/Release/net7.0/win10-x64/publish
+          cd plugin_OSC/bin/Release/net8.0/win-x64/publish
           7z a plugin_OSC.zip *
         
       - name: Upload plugin artifact
@@ -38,5 +38,5 @@ jobs:
           prerelease: true
           title: "plugin_OSC Build Artifact"
           files: |
-            ./plugin_OSC/bin/Release/net7.0/win10-x64/publish/plugin_OSC.zip
+            ./plugin_OSC/bin/Release/net8.0/win-x64/publish/plugin_OSC.zip
             ./external/manifest.json

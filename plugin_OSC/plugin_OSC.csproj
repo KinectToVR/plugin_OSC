@@ -1,12 +1,12 @@
 <Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
     <TargetPlatformVersion>10.0.22621.0</TargetPlatformVersion>
     <TargetPlatformIdentifier>Windows</TargetPlatformIdentifier>
     <RootNamespace>plugin_OSC</RootNamespace>
-    <RuntimeIdentifiers>win10-x64</RuntimeIdentifiers>
-    <PublishTrimmed>true</PublishTrimmed>
+    <RuntimeIdentifiers>win-x64</RuntimeIdentifiers>
+    <PublishTrimmed>false</PublishTrimmed>
     <Platforms>x64</Platforms>
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
     <ImplicitUsings>enable</ImplicitUsings>
@@ -14,16 +14,16 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Amethyst.Plugins.Contract" Version="0.3.35" />
+    <PackageReference Include="Amethyst.Plugins.Contract" Version="1.3.0" />
     <PackageReference Include="BuildSoft.OscCore" Version="1.2.1.1" />
     <PackageReference Include="CommunityToolkit.WinUI.UI" Version="7.1.2" />
     <PackageReference Include="MeaMod.DNS" Version="1.0.71" />
-    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Abstractions" Version="9.0.6" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="System.ComponentModel.Composition" Version="9.0.0" />
-    <PackageReference Include="System.ComponentModel.Composition.Registration" Version="9.0.0" />
-    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.5.240627000" />
-    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.1" />
+    <PackageReference Include="System.ComponentModel.Composition" Version="9.0.6" />
+    <PackageReference Include="System.ComponentModel.Composition.Registration" Version="9.0.6" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.7.250606001" />
+    <PackageReference Include="Microsoft.Windows.SDK.BuildTools" Version="10.0.26100.4188" />
     <PackageReference Include="System.Net.Http" Version="4.3.4" />
     <PackageReference Include="VRChat.OSCQuery" Version="0.0.7" />
   </ItemGroup>

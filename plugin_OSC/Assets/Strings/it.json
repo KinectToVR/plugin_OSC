@@ -15,7 +15,7 @@
     },
     {
       "id": "/Statuses/Success",
-      "translation": "Successo!\nS_OK\nVa tutto bene!"
+      "translation": "Successo!\nS_OK\nTutto a posto!"
     },
     {
       "id": "/Statuses/ManualOverride",
@@ -28,6 +28,14 @@
     {
       "id": "/Statuses/Unknown",
       "translation": "Errore connessione!\nE_NOT_STARTED\nPremere il pulsante 'Ricarica' per avviare il server."
+    },
+    {
+      "id": "/Settings/Labels/IPAddressInvalid",
+      "translation": "Indirizzo IP non valido!"
+    },
+    {
+      "id": "/Settings/Labels/PortInvalid",
+      "translation": "Porta OSC non valida!"
     }
   ]
 }

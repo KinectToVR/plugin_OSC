@@ -19,7 +19,7 @@
     },
     {
       "id": "/Statuses/ManualOverride",
-      "translation": "Success! (Manual override)\nS_OK\nEverything's good!"
+      "translation": "Successo! (Override manuale)\nS_OK\nVa tutto bene!"
     },
     {
       "id": "/Statuses/InitException",
